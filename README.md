@@ -5,13 +5,13 @@
 ![Vite](https://img.shields.io/badge/Vite-5.0-purple)
 ![Lisensi](https://img.shields.io/badge/lisensi-MIT-green)
 
-> Sistem pemantauan fokus karyawan real-time menggunakan AI & Computer Vision
+> Sistem monitoring fokus karyawan real-time menggunakan AI & Computer Vision
 
 <!-- ## 📊 Tampilan Dashboard
 ![Dashboard Preview](https://via.placeholder.com/800x400?text=Dashboard+Preview) -->
 
 ## ✨ Fitur
-- 🎯 Pemantauan skor fokus secara real-time
+- 🎯 Monitoring skor fokus secara real-time
 - 📈 Visualisasi data historis
 - 👁️ Analisis kontak mata & postur tubuh
 - 📊 Statistik performa & tren karyawan
