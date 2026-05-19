@@ -1,16 +1,38 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Dashboard from './pages/dashboard'
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+
+import Dashboard from "./pages/dashboard.tsx";
+import History from "./pages/History.tsx";
+import Statistics from "./pages/Statistics.tsx";
 
 function App() {
   return (
-    <Router>
-      <div>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-        </Routes>
-      </div>
-    </Router>
-  )
+    <BrowserRouter>
+
+      <Routes>
+
+        <Route
+          path="/"
+          element={<Dashboard />}
+        />
+
+        <Route
+          path="/history"
+          element={<History />}
+        />
+
+        <Route
+          path="/statistics"
+          element={<Statistics />}
+        />
+
+      </Routes>
+
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
