@@ -1,85 +1,78 @@
-export default function WebcamCard() {
+type Props = {
+  videoRef: React.RefObject<HTMLVideoElement | null>;
+  canvasRef: React.RefObject<HTMLCanvasElement | null>;
+  status: string;
+};
+
+export default function WebcamCard({
+  videoRef,
+  canvasRef,
+  status,
+}: Props) {
   return (
     <div
       className="
+      bg-white
       rounded-3xl
-      p-6
       border
-      shadow-sm
+      p-6
+      h-full
       "
       style={{
-        backgroundColor: "#FFFFFF",
         borderColor: "#D7EEEE",
       }}
     >
-
-      <div className="flex justify-between items-center mb-5">
-
-        <div>
-
-          <h2
-            className="text-2xl font-bold"
-            style={{
-              color: "#0B1320",
-            }}
-          >
-            Monitoring Kamera
-          </h2>
-
-          <p
-            style={{
-              color: "#5C6B73",
-            }}
-          >
-            Real-time webcam monitoring
-          </p>
-
-        </div>
-
-        <div
-          className="
-          px-4
-          py-2
-          rounded-full
-          text-sm
-          font-semibold
-          "
-          style={{
-            backgroundColor: "#2EC4B620",
-            color: "#2EC4B6",
-          }}
-        >
-          Aktif
-        </div>
-
-      </div>
-
+      {/* VIDEO */}
       <div
         className="
-        h-[420px]
-        rounded-3xl
-        flex
-        items-center
-        justify-center
-        border
+        w-full
+        h-[320px]
+        rounded-2xl
+        overflow-hidden
+        bg-[#EEF7F7]
         "
-        style={{
-          backgroundColor: "#F4FBFB",
-          borderColor: "#D7EEEE",
-        }}
       >
-
-        <p
-          className="text-lg"
-          style={{
-            color: "#5C6B73",
-          }}
-        >
-          Webcam Stream
-        </p>
-
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          muted
+          className="
+          w-full
+          h-full
+          object-cover
+          "
+        />
       </div>
 
+      <canvas
+        ref={canvasRef}
+        width={160}
+        height={160}
+        className="hidden"
+      />
+
+  
+      <div className="mt-4 flex items-center gap-3">
+        <div
+          className={`
+          w-3
+          h-3
+          rounded-full
+          ${
+            status === "FOCUS"
+              ? "bg-green-400"
+              : status === "NOT FOCUS"
+              ? "bg-red-400"
+              : "bg-yellow-400"
+          }
+          `}
+        />
+
+        <p className="text-sm text-[#5C6B73]">
+          {status}
+        </p>
+      </div>
     </div>
   );
 }

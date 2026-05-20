@@ -1,17 +1,24 @@
 type Props = {
-  emotion: string;
+  status: string;
+  duration: number;
 };
 
 export default function AlertBox({
-  emotion,
+  status,
+  duration,
 }: Props) {
 
-  if (
-    emotion !== "Ngantuk" &&
-    emotion !== "Stress"
-  ) {
+  // =========================
+  // HIDE ALERT
+  // =========================
+  if (status !== "NOT FOCUS") {
     return null;
   }
+
+  // =========================
+  // ALERT LEVEL
+  // =========================
+  const isCritical = duration >= 10;
 
   return (
     <div
@@ -21,18 +28,26 @@ export default function AlertBox({
       border
       "
       style={{
-        backgroundColor: "#FFF5F7",
-        borderColor: "#FFD4DD",
+        backgroundColor: isCritical
+          ? "#FFF1F2"
+          : "#FFF8EB",
+
+        borderColor: isCritical
+          ? "#FFD4DD"
+          : "#FFE0A3",
       }}
     >
-
       <h2
         className="text-xl font-semibold"
         style={{
-          color: "#EF476F",
+          color: isCritical
+            ? "#EF476F"
+            : "#FFB703",
         }}
       >
-        Peringatan
+        {isCritical
+          ? "Critical Alert"
+          : "Warning"}
       </h2>
 
       <p
@@ -41,13 +56,10 @@ export default function AlertBox({
           color: "#5C6B73",
         }}
       >
-
-        {emotion === "Ngantuk"
-          ? "Pengguna terlihat mengantuk."
-          : "Pengguna terlihat stress."}
-
+        {isCritical
+          ? `Pengguna kehilangan fokus selama ${duration} detik.`
+          : "Pengguna mulai kehilangan fokus."}
       </p>
-
     </div>
   );
 }
