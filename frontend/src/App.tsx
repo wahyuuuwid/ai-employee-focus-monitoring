@@ -8,8 +8,10 @@ import Dashboard from "./pages/dashboard.tsx";
 import History from "./pages/History.tsx";
 import Statistics from "./pages/Statistics.tsx";
 
-function App() {
+export default function App() {
+
   return (
+
     <BrowserRouter>
 
       <Routes>
@@ -34,5 +36,3 @@ function App() {
     </BrowserRouter>
   );
 }
-
-export default App;

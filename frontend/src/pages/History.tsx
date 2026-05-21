@@ -1,32 +1,53 @@
+import { useEffect, useState } from "react";
+
 import Navbar from "../components/Navbar";
+import API from "../services/api";
 
 type HistoryType = {
-  waktu: string;
-  kondisi: string;
-  skor: string;
+  id: number;
+  status: string;
+  focus_score: number;
+  created_at: string;
 };
 
 export default function History() {
 
-  const data: HistoryType[] = [
-    {
-      waktu: "08:00",
-      kondisi: "Fokus",
-      skor: "94%",
-    },
-    {
-      waktu: "08:30",
-      kondisi: "Ngantuk",
-      skor: "71%",
-    },
-    {
-      waktu: "09:00",
-      kondisi: "Stress",
-      skor: "63%",
-    },
-  ];
+  const [history, setHistory] = useState<
+    HistoryType[]
+  >([]);
+
+  const fetchHistory = async () => {
+
+    try {
+
+      const response =
+        await API.get("/history");
+
+      setHistory(response.data);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
+
+  useEffect(() => {
+
+    fetchHistory();
+
+    const interval = setInterval(() => {
+
+      fetchHistory();
+
+    }, 5000);
+
+    return () => clearInterval(interval);
+
+  }, []);
 
   return (
+
     <div className="min-h-screen bg-[#F4FBFB]">
 
       <Navbar />
@@ -62,7 +83,6 @@ export default function History() {
                 className="border-b"
                 style={{
                   borderColor: "#D7EEEE",
-                  color: "#5C6B73",
                 }}
               >
 
@@ -84,41 +104,39 @@ export default function History() {
 
             <tbody>
 
-              {data.map((item, index) => (
+              {history.map((item) => (
 
                 <tr
-                  key={index}
+                  key={item.id}
                   className="border-b"
                   style={{
                     borderColor: "#D7EEEE",
                   }}
                 >
 
-                  <td
-                    className="py-5"
-                    style={{
-                      color: "#5C6B73",
-                    }}
-                  >
-                    {item.waktu}
+                  <td className="py-5">
+                    {item.created_at}
                   </td>
 
-                  <td
-                    className="py-5 font-semibold"
-                    style={{
-                      color: "#0B1320",
-                    }}
-                  >
-                    {item.kondisi}
+                  <td className="py-5">
+
+                    <span
+                      className={`
+                        px-4 py-2 rounded-xl text-white
+                        ${
+                          item.status === "FOCUS"
+                            ? "bg-green-500"
+                            : "bg-red-500"
+                        }
+                      `}
+                    >
+                      {item.status}
+                    </span>
+
                   </td>
 
-                  <td
-                    className="py-5 font-semibold"
-                    style={{
-                      color: "#2EC4B6",
-                    }}
-                  >
-                    {item.skor}
+                  <td className="py-5 font-semibold">
+                    {item.focus_score}%
                   </td>
 
                 </tr>
