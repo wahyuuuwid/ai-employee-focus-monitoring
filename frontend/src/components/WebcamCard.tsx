@@ -26,7 +26,7 @@ export default function WebcamCard({
       <div
         className="
         w-full
-        h-[320px]
+        h-[500px]
         rounded-2xl
         overflow-hidden
         bg-[#EEF7F7]
