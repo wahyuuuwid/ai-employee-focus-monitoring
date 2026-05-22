@@ -306,6 +306,25 @@ export const useFocusAI = () => {
 
     setStatus("Detecting");
   };
+  const getSuggestion = () => {
+    if (status === "FOCUS") {
+      return "Bagus, Pertahankan jangan lupa untuk istirahat sejenak setelah fokus ya!";
+    }
+
+    if (duration >= 15) {
+      return "Kamu terlihat lelah. Coba istirahat sebentar.";
+    }
+
+    if (duration >= 8) {
+      return "Ngopi dulu ngga sih...";
+    }
+
+    if (duration >= 3) {
+      return "Fokus dulu yuk, jangan kemana mana";
+    }
+
+    return "Mendeteksi...";
+  };
   const [cameraReady, setCameraReady] = useState(false);
   return {
     videoRef,
@@ -315,5 +334,6 @@ export const useFocusAI = () => {
     notFocusScore,
     duration,
     cameraReady,
+    suggestion: getSuggestion(),
   };
 };
