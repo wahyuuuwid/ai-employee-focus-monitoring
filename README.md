@@ -38,6 +38,11 @@ cd ai-employee-focus-monitoring
 cd frontend
 npm install
 npm run dev
+
+# Setup Backend (terminal baru)
+cd backend
+pip install -r ~/requirements.txt
+py app.py
 ```
 
 # Akses Aplikasi
