@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
+import { Activity, Eye, EyeOff, AlertCircle } from "lucide-react";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -8,6 +9,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
     setError("");
@@ -19,124 +21,67 @@ export default function Login() {
     try {
       const res = await API.post("/login", { email, password });
       if (res.status === 200) {
+        localStorage.setItem("token", res.data.token);
         localStorage.setItem("user_id", res.data.user_id);
-        navigate("/");
+        localStorage.setItem("role", res.data.role);
+
+        // Redirect based on role
+        if (res.data.role === 'admin') {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
       }
     } catch (err: any) {
-      setError("Email atau password salah.");
+      setError(err.response?.data?.error || "Email atau password salah.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background:
-          "linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: "'Segoe UI', sans-serif",
-        padding: "20px",
-      }}
-    >
-      {/* Background grid effect */}
+    <div className="flex min-h-screen items-center justify-center bg-[#F8FAFC] px-4">
+      {/* Subtle grid backdrop */}
       <div
+        className="pointer-events-none fixed inset-0"
         style={{
-          position: "fixed",
-          inset: 0,
           backgroundImage:
-            "linear-gradient(rgba(46,196,182,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(46,196,182,0.05) 1px, transparent 5px)",
-          backgroundSize: "40px 40px",
-          pointerEvents: "none",
+            "linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px)",
+          backgroundSize: "44px 44px",
+          maskImage: "radial-gradient(circle at 50% 30%, black, transparent 70%)",
         }}
       />
 
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "420px",
-          position: "relative",
-          zIndex: 1,
-        }}
-      >
+      <div className="relative z-10 w-full max-w-[420px]">
         {/* Logo / Header */}
-        <div style={{ textAlign: "center", marginBottom: "36px" }}>
-          <div
-            style={{
-              width: "64px",
-              height: "64px",
-              borderRadius: "16px",
-              background: "linear-gradient(135deg, #ffffff, #ffffff)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              margin: "0 auto 16px",
-              boxShadow: "0 0 32px rgba(46,196,182,0.4)",
-              fontSize: "28px",
-            }}
-          >
-            <img src="/favicon.svg" width="36" height="36" />
+        <div className="mb-8 flex flex-col items-center text-center">
+          <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#2563EB] shadow-lg shadow-blue-500/25">
+            <Activity size={26} className="text-white" strokeWidth={2.5} />
           </div>
-          <h1
-            style={{
-              color: "#ffffff",
-              fontSize: "24px",
-              fontWeight: 700,
-              margin: "0 0 6px",
-              letterSpacing: "-0.5px",
-            }}
-          >
-            AI Employee Focus Monitoring
-          </h1>
-          <p style={{ color: "#8892a4", fontSize: "14px", margin: 0 }}>
-            Masuk untuk mulai monitoring
+          <h1 className="text-[22px] font-bold text-slate-900">WorkSight</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Employee Focus Monitoring Dashboard
           </p>
         </div>
 
         {/* Card */}
-        <div
-          style={{
-            background: "rgba(255,255,255,0.04)",
-            border: "1px solid rgba(46,196,182,0.2)",
-            borderRadius: "20px",
-            padding: "36px",
-            backdropFilter: "blur(20px)",
-            boxShadow: "0 24px 48px rgba(0,0,0,0.4)",
-          }}
-        >
+        <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-[0_12px_32px_-8px_rgb(15_23_42_/_0.10),0_4px_12px_-4px_rgb(15_23_42_/_0.06)]">
+          <h2 className="mb-1 text-lg font-bold text-slate-900">Sign in</h2>
+          <p className="mb-6 text-sm text-slate-500">
+            Masuk untuk mulai monitoring
+          </p>
+
           {/* Error message */}
           {error && (
-            <div
-              style={{
-                background: "rgba(255,80,80,0.12)",
-                border: "1px solid rgba(255,80,80,0.3)",
-                borderRadius: "10px",
-                padding: "12px 16px",
-                color: "#ff6b6b",
-                fontSize: "14px",
-                marginBottom: "20px",
-              }}
-            >
-              {error}
+            <div className="mb-5 flex items-start gap-2.5 rounded-[10px] border border-red-200 bg-red-50 px-3.5 py-3 text-sm text-[#EF4444]">
+              <AlertCircle size={16} className="mt-0.5 shrink-0" />
+              <span>{error}</span>
             </div>
           )}
 
           {/* Email */}
-          <div style={{ marginBottom: "20px" }}>
-            <label
-              style={{
-                display: "block",
-                color: "#a0aec0",
-                fontSize: "13px",
-                fontWeight: 600,
-                marginBottom: "8px",
-                letterSpacing: "0.5px",
-                textTransform: "uppercase",
-              }}
-            >
+          <div className="mb-4">
+            <label className="mb-1.5 block text-sm font-semibold text-slate-700">
               Email
             </label>
             <input
@@ -144,105 +89,49 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleLogin()}
-              placeholder="Ketik alamat email"
-              style={{
-                width: "100%",
-                padding: "12px 16px",
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: "10px",
-                color: "#ffffff",
-                fontSize: "15px",
-                outline: "none",
-                boxSizing: "border-box",
-                transition: "border-color 0.2s",
-              }}
-              onFocus={(e) =>
-                (e.target.style.borderColor = "rgba(46,196,182,0.6)")
-              }
-              onBlur={(e) =>
-                (e.target.style.borderColor = "rgba(255,255,255,0.1)")
-              }
+              placeholder="nama@perusahaan.com"
+              className="w-full rounded-[10px] border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15"
             />
           </div>
 
           {/* Password */}
-          <div style={{ marginBottom: "28px" }}>
-            <label
-              style={{
-                display: "block",
-                color: "#a0aec0",
-                fontSize: "13px",
-                fontWeight: 600,
-                marginBottom: "8px",
-                letterSpacing: "0.5px",
-                textTransform: "uppercase",
-              }}
-            >
+          <div className="mb-6">
+            <label className="mb-1.5 block text-sm font-semibold text-slate-700">
               Password
             </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleLogin()}
-              placeholder="••••••••"
-              style={{
-                width: "100%",
-                padding: "12px 16px",
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: "10px",
-                color: "#ffffff",
-                fontSize: "15px",
-                outline: "none",
-                boxSizing: "border-box",
-                transition: "border-color 0.2s",
-              }}
-              onFocus={(e) =>
-                (e.target.style.borderColor = "rgba(46,196,182,0.6)")
-              }
-              onBlur={(e) =>
-                (e.target.style.borderColor = "rgba(255,255,255,0.1)")
-              }
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+                placeholder="••••••••"
+                className="w-full rounded-[10px] border border-slate-200 bg-white px-3.5 py-2.5 pr-10 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((s) => !s)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
           </div>
 
           {/* Button */}
           <button
             onClick={handleLogin}
             disabled={loading}
-            style={{
-              width: "100%",
-              padding: "14px",
-              background: loading
-                ? "rgba(46,196,182,0.4)"
-                : "linear-gradient(135deg, #2EC4B6, #0a8a82)",
-              border: "none",
-              borderRadius: "10px",
-              color: "#ffffff",
-              fontSize: "15px",
-              fontWeight: 700,
-              cursor: loading ? "not-allowed" : "pointer",
-              letterSpacing: "0.5px",
-              boxShadow: loading ? "none" : "0 4px 20px rgba(46,196,182,0.4)",
-              transition: "all 0.2s",
-            }}
+            className="w-full rounded-[10px] bg-[#2563EB] py-2.5 text-sm font-semibold text-white shadow-sm shadow-blue-500/20 transition hover:bg-[#1D4ED8] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? "Masuk..." : "Masuk"}
           </button>
-
-          {/* Hint */}
-          <p
-            style={{
-              color: "#4a5568",
-              fontSize: "12px",
-              textAlign: "center",
-              marginTop: "20px",
-              marginBottom: 0,
-            }}
-          ></p>
         </div>
+
+        <p className="mt-6 text-center text-xs text-slate-400">
+          WorkSight &middot; Enterprise Focus Monitoring Platform
+        </p>
       </div>
     </div>
   );
