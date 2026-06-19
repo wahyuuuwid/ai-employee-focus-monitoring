@@ -26,35 +26,61 @@
 ### Prasyarat
 - Python 3.9+
 - Node.js 18+
+- MySQL 8.0+ (running locally or remote)
 
 ### Instalasi
 
-```bash
-# Clone repository
-git clone https://github.com/wahyuuuwid/ai-employee-focus-monitoring.git
-cd ai-employee-focus-monitoring
+#### 1. Setup Database (MySQL)
 
-# Setup Frontend (buka terminal baru)
+```bash
+# Copy .env template and fill with your database credentials
+cd backend/instance
+cp .env.example .env
+
+# Edit .env and update:
+# DB_HOST=localhost (or your MySQL host)
+# DB_USER=root (or your MySQL user)
+# DB_PASSWORD= (your password, leave empty if none)
+# DB_NAME=ai_monitoring
+# DB_PORT=3306
+
+# Go back to backend and run initialization
+cd ..
+pip install -r instance/requirements.txt
+python init_db.py
+
+# If successful, you'll see:
+# ✅ Database initialized successfully!
+# 🔑 Test User Credentials:
+#    Email: test@example.com
+#    Password: test123
+```
+
+#### 2. Setup Backend
+
+```bash
+cd backend
+pip install -r instance/requirements.txt
+python app.py
+# Backend should run on http://localhost:5000
+```
+
+#### 3. Setup Frontend (terminal baru)
+
+```bash
 cd frontend
 npm install
 npm run dev
-
-# Setup Backend (terminal baru)
-cd backend
-pip install -r ~/requirements.txt
-py app.py
+# Frontend should run on http://localhost:5173
 ```
+
+#### 4. Login
+
+- Open http://localhost:5173 in browser
+- Login dengan:
+  - Email: `test@example.com`
+  - Password: `test123`
 
 # Akses Aplikasi
 Frontend: http://localhost:5173
-
-<!-- Backend API: http://localhost:5000
-
-Login default: admin / password123 -->
-
-<!-- # Setup Backend
-cd backend
-python -m venv venv
-source venv/bin/activate  # atau `venv\Scripts\activate` di Windows
-pip install -r requirements.txt
-python app.py -->
+Backend API: http://localhost:5000
