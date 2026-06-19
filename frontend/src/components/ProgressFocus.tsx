@@ -2,35 +2,20 @@ type Props = {
   value: number;
 };
 
-export default function ProgressFocus({
-  value,
-}: Props) {
+export default function ProgressFocus({ value }: Props) {
   return (
-    <div className="bg-white rounded-3xl shadow-sm p-6">
-
-      <div className="flex justify-between mb-3">
-
-        <p className="text-slate-500">
-          Tingkat Fokus
-        </p>
-
-        <p className="font-semibold text-slate-700">
-          {value}%
-        </p>
-
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_1px_2px_0_rgb(15_23_42_/_0.04),0_1px_6px_-2px_rgb(15_23_42_/_0.06)]">
+      <div className="mb-3 flex justify-between">
+        <p className="text-sm font-medium text-slate-500">Tingkat Fokus</p>
+        <p className="text-sm font-bold text-slate-900">{value}%</p>
       </div>
 
-      <div className="w-full bg-slate-200 h-4 rounded-full overflow-hidden">
-
+      <div className="h-3 w-full overflow-hidden rounded-full bg-slate-100">
         <div
-          className="bg-blue-500 h-4 rounded-full transition-all duration-500"
-          style={{
-            width: `${value}%`,
-          }}
-        ></div>
-
+          className="h-3 rounded-full bg-[#2563EB] transition-all duration-500"
+          style={{ width: `${value}%` }}
+        />
       </div>
-
     </div>
   );
 }
