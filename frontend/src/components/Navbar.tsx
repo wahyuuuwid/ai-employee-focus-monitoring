@@ -1,6 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("role");
+    navigate("/login");
+  };
+
   return (
     <div
       className="
@@ -72,6 +81,19 @@ export default function Navbar() {
         >
           Statistik
         </Link>
+
+        <button
+          onClick={handleLogout}
+          className="transition hover:text-[#EF476F] font-medium"
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            color: "#5C6B73",
+          }}
+        >
+          Logout
+        </button>
 
       </div>
 
