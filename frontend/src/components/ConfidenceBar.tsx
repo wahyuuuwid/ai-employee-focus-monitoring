@@ -2,71 +2,20 @@ type Props = {
   value: number;
 };
 
-export default function ConfidenceBar({
-  value,
-}: Props) {
-
+export default function ConfidenceBar({ value }: Props) {
   return (
-    <div
-      className="
-      rounded-3xl
-      p-6
-      border
-      "
-      style={{
-        backgroundColor: "#FFFFFF",
-        borderColor: "#D7EEEE",
-      }}
-    >
-
-      <div className="flex justify-between mb-4">
-
-        <p
-          style={{
-            color: "#5C6B73",
-          }}
-        >
-          Tingkat Akurasi
-        </p>
-
-        <p
-          className="font-semibold"
-          style={{
-            color: "#0B1320",
-          }}
-        >
-          {value}%
-        </p>
-
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_1px_2px_0_rgb(15_23_42_/_0.04),0_1px_6px_-2px_rgb(15_23_42_/_0.06)]">
+      <div className="mb-3 flex items-center justify-between">
+        <p className="text-sm font-medium text-slate-500">Tingkat Akurasi</p>
+        <p className="text-sm font-bold text-slate-900">{value}%</p>
       </div>
 
-      <div
-        className="
-        w-full
-        h-4
-        rounded-full
-        overflow-hidden
-        "
-        style={{
-          backgroundColor: "#D7EEEE",
-        }}
-      >
-
+      <div className="h-3 w-full overflow-hidden rounded-full bg-slate-100">
         <div
-          className="
-          h-4
-          rounded-full
-          transition-all
-          duration-500
-          "
-          style={{
-            width: `${value}%`,
-            backgroundColor: "#2EC4B6",
-          }}
-        ></div>
-
+          className="h-3 rounded-full bg-[#2563EB] transition-all duration-500"
+          style={{ width: `${value}%` }}
+        />
       </div>
-
     </div>
   );
 }

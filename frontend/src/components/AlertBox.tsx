@@ -1,13 +1,11 @@
+import { AlertTriangle, OctagonAlert } from "lucide-react";
+
 type Props = {
   status: string;
   duration: number;
 };
 
-export default function AlertBox({
-  status,
-  duration,
-}: Props) {
-
+export default function AlertBox({ status, duration }: Props) {
   // =========================
   // HIDE ALERT
   // =========================
@@ -22,44 +20,35 @@ export default function AlertBox({
 
   return (
     <div
-      className="
-      rounded-3xl
-      p-5
-      border
-      "
-      style={{
-        backgroundColor: isCritical
-          ? "#FFF1F2"
-          : "#FFF8EB",
-
-        borderColor: isCritical
-          ? "#FFD4DD"
-          : "#FFE0A3",
-      }}
+      className={`ws-fade-in flex items-start gap-3 rounded-2xl border p-5 ${
+        isCritical
+          ? "border-[#FECACA] bg-[#FEF2F2]"
+          : "border-[#FDE68A] bg-[#FFFBEB]"
+      }`}
     >
-      <h2
-        className="text-xl font-semibold"
-        style={{
-          color: isCritical
-            ? "#EF476F"
-            : "#FFB703",
-        }}
+      <div
+        className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${
+          isCritical ? "bg-[#FEE2E2] text-[#EF4444]" : "bg-[#FEF3C7] text-[#F59E0B]"
+        }`}
       >
-        {isCritical
-          ? "Critical Alert"
-          : "Warning"}
-      </h2>
+        {isCritical ? <OctagonAlert size={18} /> : <AlertTriangle size={18} />}
+      </div>
 
-      <p
-        className="mt-2"
-        style={{
-          color: "#5C6B73",
-        }}
-      >
-        {isCritical
-          ? `Pengguna kehilangan fokus selama ${duration} detik.`
-          : "Pengguna mulai kehilangan fokus."}
-      </p>
+      <div>
+        <h2
+          className={`text-base font-bold ${
+            isCritical ? "text-[#EF4444]" : "text-[#B45309]"
+          }`}
+        >
+          {isCritical ? "Critical Alert" : "Warning"}
+        </h2>
+
+        <p className="mt-1 text-sm text-slate-600">
+          {isCritical
+            ? `Pengguna kehilangan fokus selama ${duration} detik.`
+            : "Pengguna mulai kehilangan fokus."}
+        </p>
+      </div>
     </div>
   );
 }
