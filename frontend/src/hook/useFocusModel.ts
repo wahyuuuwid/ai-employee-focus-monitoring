@@ -106,7 +106,7 @@ export const useFocusAI = () => {
 
   const init = async () => {
     try {
-      setStatus("Loading AI...");
+      setStatus("Loading...");
 
      
       await tf.setBackend("webgl");

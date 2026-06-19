@@ -1,15 +1,18 @@
-import Navbar from "../components/Navbar";
+import AppShell from "../components/layout/AppShell";
 import WebcamCard from "../components/WebcamCard";
 import EmotionCard from "../components/EmotionCard";
 import ConfidenceBar from "../components/ConfidenceBar";
 import AlertBox from "../components/AlertBox";
 import StatsCard from "../components/StatsCard";
+import { Gauge, EyeOff, TimerOff } from "lucide-react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useFocusAI } from "../hook/useFocusModel";
 
 import API from "../services/api";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
 
   const {
     videoRef,
@@ -20,26 +23,34 @@ export default function Dashboard() {
     duration,
   } = useFocusAI();
 
+  // Check if token exists, if not redirect to login
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login", { replace: true });
+    }
+  }, [navigate]);
+
   const emotionMap = {
 
     FOCUS: {
       label: "Fokus",
-      color: "#2EC4B6",
+      color: "#10B981",
     },
 
     NOT_FOCUS: {
       label: "Tidak Fokus",
-      color: "#EF476F",
+      color: "#EF4444",
     },
 
     Detecting: {
       label: "Mendeteksi",
-      color: "#FFB703",
+      color: "#F59E0B",
     },
 
     Loading: {
       label: "Loading",
-      color: "#5B2A86",
+      color: "#2563EB",
     },
 
   };
@@ -90,67 +101,68 @@ export default function Dashboard() {
   }, [status, focusScore]);
 
   return (
+    <AppShell
+      title="Monitoring Fokus Karyawan"
+      subtitle="Kelola performa dan fokus kerja karyawan secara real-time"
+      variant="employee"
+    >
+      <div className="grid lg:grid-cols-3 gap-6">
 
-    <div className="min-h-screen bg-[#F5FBFB]">
+        {/* LEFT */}
+        <div className="lg:col-span-2">
 
-      <Navbar />
-
-      <div className="max-w-7xl mx-auto p-10">
-
-        <div className="grid lg:grid-cols-3 gap-8">
-
-          {/* LEFT */}
-          <div className="lg:col-span-2">
-
-            <WebcamCard
-              videoRef={videoRef}
-              canvasRef={canvasRef}
-              status={status}
-            />
-
-          </div>
-
-          {/* RIGHT */}
-          <div className="flex flex-col gap-6">
-
-            <EmotionCard
-              emotion={current.label}
-              color={current.color}
-            />
-
-            <ConfidenceBar value={focusScore} />
-
-            <AlertBox
-              status={status}
-              duration={duration}
-            />
-
-          </div>
+          <WebcamCard
+            videoRef={videoRef}
+            canvasRef={canvasRef}
+            status={status}
+          />
 
         </div>
 
-        {/* STATS */}
-        <div className="grid md:grid-cols-3 gap-6 mt-8">
+        {/* RIGHT */}
+        <div className="flex flex-col gap-5">
 
-          <StatsCard
-            title="Focus Score"
-            value={`${focusScore}%`}
+          <EmotionCard
+            emotion={current.label}
+            color={current.color}
           />
 
-          <StatsCard
-            title="Not Focus"
-            value={`${notFocusScore}%`}
-          />
+          <ConfidenceBar value={focusScore} />
 
-          <StatsCard
-            title="Distracted Time"
-            value={`${duration}s`}
+          <AlertBox
+            status={status}
+            duration={duration}
           />
 
         </div>
 
       </div>
 
-    </div>
+      {/* STATS */}
+      <div className="grid md:grid-cols-3 gap-5 mt-6">
+
+        <StatsCard
+          title="Focus Score"
+          value={`${focusScore}%`}
+          icon={<Gauge size={18} />}
+          accent="#10B981"
+        />
+
+        <StatsCard
+          title="Not Focus"
+          value={`${notFocusScore}%`}
+          icon={<EyeOff size={18} />}
+          accent="#EF4444"
+        />
+
+        <StatsCard
+          title="Distracted Time"
+          value={`${duration}s`}
+          icon={<TimerOff size={18} />}
+          accent="#F59E0B"
+        />
+
+      </div>
+    </AppShell>
   );
 }
