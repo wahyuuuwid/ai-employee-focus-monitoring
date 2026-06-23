@@ -28,7 +28,9 @@ export default function AlertBox({ status, duration }: Props) {
     >
       <div
         className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${
-          isCritical ? "bg-[#FEE2E2] text-[#EF4444]" : "bg-[#FEF3C7] text-[#F59E0B]"
+          isCritical
+            ? "bg-[#FEE2E2] text-[#EF4444]"
+            : "bg-[#FEF3C7] text-[#F59E0B]"
         }`}
       >
         {isCritical ? <OctagonAlert size={18} /> : <AlertTriangle size={18} />}
@@ -48,6 +50,13 @@ export default function AlertBox({ status, duration }: Props) {
             ? `Pengguna kehilangan fokus selama ${duration} detik.`
             : "Pengguna mulai kehilangan fokus."}
         </p>
+        <a
+          href="/history"
+          className="mt-2 inline-block text-xs font-semibold underline"
+          style={{ color: isCritical ? "#EF4444" : "#B45309" }}
+        >
+          Lihat Detail
+        </a>
       </div>
     </div>
   );
