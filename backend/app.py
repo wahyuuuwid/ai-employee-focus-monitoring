@@ -46,6 +46,20 @@ conn = mysql.connector.connect(
 mycursor = conn.cursor()
 
 # =====================================
+# REQUEST HOOKS
+# =====================================
+
+@app.before_request
+def before_request():
+    try:
+        # Ping connection to ensure it's alive, reconnect if necessary
+        conn.ping(reconnect=True, attempts=3, delay=1)
+        # Commit to ensure fresh data (MySQL REPEATABLE READ isolation fix)
+        conn.commit()
+    except Exception as e:
+        print(f"Error ensuring database connection: {e}")
+
+# =====================================
 # AUTHENTICATION DECORATOR
 # =====================================
 

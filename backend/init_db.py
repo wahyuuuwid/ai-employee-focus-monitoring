@@ -15,7 +15,7 @@ import sys
 env_path = os.path.join(os.path.dirname(__file__), "instance", ".env")
 if not os.path.exists(env_path):
     print("❌ Error: .env file not found!")
-    print(f"📋 Please copy .env.example to .env and fill in your database credentials")
+    print(f"📋 Please copy .env.worksight to .env and fill in your database credentials")
     print(f"   Expected location: {env_path}")
     sys.exit(1)
 
@@ -53,17 +53,17 @@ try:
             print(f"📝 Executing: {statement[:50]}...")
             cursor.execute(statement)
 
-    # Hash passwords for test users
-    test_password = "test123"
-    admin_password = "admin123"
+    # Hash passwords for users
+    budi_password = "budi123"
+    wahyu_password = "wahyu123"
 
-    test_hashed = bcrypt.hashpw(test_password.encode(), bcrypt.gensalt())
-    admin_hashed = bcrypt.hashpw(admin_password.encode(), bcrypt.gensalt())
+    budi_hashed = bcrypt.hashpw(budi_password.encode(), bcrypt.gensalt())
+    wahyu_hashed = bcrypt.hashpw(wahyu_password.encode(), bcrypt.gensalt())
 
-    # Update test users with hashed passwords
+    # Update users with hashed passwords
     update_query = f"UPDATE {DB_NAME}.users SET password = %s WHERE email = %s"
-    cursor.execute(update_query, (test_hashed.decode(), 'test@example.com'))
-    cursor.execute(update_query, (admin_hashed.decode(), 'admin@example.com'))
+    cursor.execute(update_query, (budi_hashed.decode(), 'budi@worksight.com'))
+    cursor.execute(update_query, (wahyu_hashed.decode(), 'wahyu@worksight.com'))
 
     cnx.commit()
     cursor.close()
@@ -71,13 +71,13 @@ try:
 
     print("✅ Database initialized successfully!")
     print()
-    print("🔑 Test User Credentials:")
-    print("   Email: test@example.com")
-    print("   Password: test123")
+    print("🔑 User Credentials (Budi Santoso):")
+    print("   Email: budi@worksight.com")
+    print("   Password: budi123")
     print()
-    print("🔑 Admin User Credentials:")
-    print("   Email: admin@example.com")
-    print("   Password: admin123")
+    print("🔑 Admin Credentials (Wahyu Hidayat):")
+    print("   Email: wahyu@worksight.com")
+    print("   Password: wahyu123")
     print()
     print("🚀 You can now start the backend with: python app.py")
 

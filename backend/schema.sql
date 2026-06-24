@@ -29,10 +29,10 @@ CREATE TABLE IF NOT EXISTS monitoring_logs (
 -- Create test users (passwords will be hashed in init_db.py)
 -- Admin user
 INSERT INTO users (email, password, name, role)
-VALUES ('admin@example.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5YmMxSUaqvMXi', 'Admin User', 'admin')
+VALUES ('wahyu@worksight.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5YmMxSUaqvMXi', 'Wahyu Hidayat', 'admin')
 ON DUPLICATE KEY UPDATE password=password;
 
 -- Regular test user
 INSERT INTO users (email, password, name, role)
-VALUES ('test@example.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5YmMxSUaqvMXi', 'Test User', 'user')
+VALUES ('budi@worksight.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5YmMxSUaqvMXi', 'Budi Santoso', 'user')
 ON DUPLICATE KEY UPDATE password=password;
